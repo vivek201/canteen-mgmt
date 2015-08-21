@@ -1,0 +1,44 @@
+<?php require_once '../includes/functions.php';?>
+<?php require_once 'templates/header.php';?>
+<?php 
+	$header = "accounts";
+	$page = "view";
+?>
+<?php require_once 'templates/navbar.php';?>
+<?php require_once 'templates/sidebar.php';?>
+
+<div class="row" style="margin-right: 0">
+	<div class="col-md-8 col-md-offset-3 page-wrapper">
+		<h2>View Existing Accounts</h2>
+		<hr>
+		<?php 
+			$all_users = User::select();
+			if (!empty($all_users)) {
+				$i = 1;
+			?>
+			<table class="table table-hover table-bordered">
+				<tr>
+					<th>S.N.</th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Username</th>
+					<th>A/C Type</th>
+					<th>Actions</th>
+				</tr>
+				<?php foreach ($all_users as $user): ?>
+				<tr>
+					<td><?php echo $i++; ?></td>
+					<td><?php echo ucwords($user->full_name()); ?></td>
+					<td><?php echo $user->email; ?></td>
+					<td><?php echo $user->username; ?></td>
+					<td><?php echo $user->permission; ?></td>
+					<td><a href="account.delete.php?id=<?php echo $user->id; ?>" class="btn btn-sm btn-danger">Delete</a></td>
+				</tr>
+				<?php endforeach;?>
+			</table>
+			<?php 
+			}
+		?>
+	</div>
+</div>
+<?php require_once 'templates/footer.php';?>

@@ -1,0 +1,29 @@
+<?php
+	function __autoload($class_name) {
+		require $_SERVER['DOCUMENT_ROOT'] . '/app/' . $class_name . '.class.php';
+	}
+	
+	function bootstrap_alert($alertArray) {
+		
+		if ($alertArray['error'] != '') {
+			$alertType = 'danger';
+			$alertMsg = $alertArray['error'];
+		}
+		else if ($alertArray['success'] != ''){
+			$alertType = 'info';
+			$alertMsg = $alertArray['success'];
+		}
+		else {
+			return;
+		}
+		
+		echo '<div class="alert alert-' . $alertType . '" role="alert">' . $alertMsg . '</div>';
+	}
+	
+
+	function redirect_to($loc = NULL) {
+		header("Location: " . $loc);
+		exit();
+	}
+
+?>

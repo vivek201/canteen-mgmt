@@ -1,0 +1,31 @@
+<?php
+	require_once 'database.class.php';
+	class User {
+		protected static $table_name = "user";
+		
+		protected $id;
+		protected $username;
+		protected $password;
+		protected $email;
+		protected $permission;
+		
+		public function __construct($array) {
+			$this->id = $array['id'];
+			$this->username = $array['username'];
+			$this->password = $array['permission'];
+			$this->email = $array['email'];
+			$this->permission = $array['permission'];
+		}
+		
+		public function login() {
+			$db = Database::getInstance();
+			$db
+			return false;
+		}
+		
+		public static function find_by_id($id) {
+			
+		}
+	}
+
+?>

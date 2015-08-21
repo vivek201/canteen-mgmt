@@ -1,0 +1,70 @@
+@CHARSET "ISO-8859-1";
+html, body {
+/* 	height: 100%; */
+}
+.wrapper {
+	width: 250px;
+	height: 100%;
+	min-height: 100%;
+	display: table;
+	margin:0px auto;
+}
+
+.wrapper-inner {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.teset:hover {
+	border: 5px solid rgba(114,73,47,0.5);
+}
+
+/* FOR ADMIN SIDEBAR */
+.sidebar {
+	background: #f8f8f8;
+	padding-right: 0px;
+	border-right:1px solid #e7e7e7;
+	margin-top:50px;
+}
+
+.sidebar .sub-menu {
+/* 	list-style-image: url(../images/arrow.png); */
+	list-style-type: none;
+}
+
+.sidebar .sub-menu:hover li {
+	background-color: #eee;	
+}
+
+.sidebar .sub-menu li 
+{
+	padding-left: 30px;
+	background-image: url(../images/arrow2.png);
+	background-repeat: no-repeat;
+	background-position: 1em 0.5em;
+}
+
+.sidebar .sub-menu li:hover
+{
+	background-image: url(../images/arrow2-inverted.png);
+}
+@media (min-width: 992px) {
+	.sidebar {
+		width: 250px;
+		position: fixed;
+		height: 100%;
+		margin-top: 0px;
+	}
+}
+
+
+
+.sidebar .nav-pills li a{
+	border-radius: 0px;
+}
+
+.page-wrapper {
+	height: 100%;
+}
+
+/* END WRAPPER*/

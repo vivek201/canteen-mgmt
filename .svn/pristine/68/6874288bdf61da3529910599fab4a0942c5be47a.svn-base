@@ -1,0 +1,40 @@
+<?php
+	class User extends CRUD {
+		protected static $table_name = "user";
+		protected static $attributes = array(
+				'id',
+				'username',
+				'password',
+				'email',
+				'permission'
+		);
+		
+		
+		public function login() {
+			$db = Database::getInstance();
+			$sql = "SELECT id, permission FROM " . 
+					static::$table_name . 
+					" WHERE username= ? and password= ? LIMIT 1";
+			$stmt = $db->handle->prepare($sql);
+			$stmt->bindParam(1, $this->username, PDO::PARAM_STR, 30);
+			$stmt->bindParam(2, $this->password, PDO::PARAM_STR, 32);
+			$stmt->execute();
+			if ($stmt->rowCount() != 0) {
+				$row = $stmt->fetch(PDO::FETCH_ASSOC);
+				$this->instantiate($row);
+				return true;
+			}
+			return false;
+		}
+		
+		protected function sanitize_data(&$stmt) {
+			$stmt->bindParam(':id', $this->id, PDO::PARAM_INT);
+			$stmt->bindParam(':username', $this->username, PDO::PARAM_STR, 30);
+			$stmt->bindParam(':password', $this->password, PDO::PARAM_STR, 32);
+			$stmt->bindParam(':email', $this->email, PDO::PARAM_STR, 50);
+			$stmt->bindParam(':permission', $this->permission, PDO::PARAM_STR, 10);
+		}
+		
+	}
+
+?>

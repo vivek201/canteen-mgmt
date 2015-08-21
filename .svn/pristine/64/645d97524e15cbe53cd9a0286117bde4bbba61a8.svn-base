@@ -1,0 +1,44 @@
+<?php
+
+	abstract class CRUD {
+		protected $db;
+		protected static $table_name;
+		protected static $attributes;
+		
+		public function __construct() {
+			$this->db = Database::getInstance();
+			foreach (static::$attributes as $key) {
+				$this->$key = '';
+			}
+		}
+		
+		public function instantiate($array) {
+			foreach ($array as $key => $value) {
+				if (in_array($key, static::$attributes)){
+					$this->$key = $value;
+				}
+			}
+		}
+		
+		abstract protected function sanitize_data(&$stmt);
+		
+		public function add() {
+			$sql = "INSERT INTO " . static::$table_name . " (" . implode(',', static::$attributes) . ") ";
+			$sql .= "VALUES (:" . implode(',:', static::$attributes) . ")";
+			
+			$db = Database::getInstance();
+			$stmt = $db->handle->prepare($sql);
+			$this->sanitize_data($stmt);
+			if ($stmt->execute()) {
+				// SUCCESSFULLY INSERTED
+				$this->id = $db->handle->lastInsertId();
+				return TRUE;
+			}
+			else {
+				return FALSE;
+			}
+		}
+	}
+
+
+?>

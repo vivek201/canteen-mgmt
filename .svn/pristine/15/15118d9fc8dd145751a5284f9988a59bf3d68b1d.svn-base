@@ -1,0 +1,46 @@
+<?php
+// 	require_once 'database.class.php';
+// 	require_once 'crud.class.php';
+	class User extends CRUD {
+		protected static $table_name = "user";
+		protected static $attributes = array(
+				'id',
+				'username',
+				'password',
+				'email',
+				'permission'
+		);
+		
+		public function __construct() {
+			foreach (static::$attributes as $key) {
+				$this->$key = '';
+			}
+		}
+		
+		public function login() {
+			$db = Database::getInstance();
+			$sql = "SELECT id, permission FROM " . 
+					static::$table_name . 
+					" WHERE username= ? and password= ? LIMIT 1";
+			$stmt = $db->handle->prepare($sql);
+			$stmt->bindParam(1, $this->username, PDO::PARAM_STR, 30);
+			$stmt->bindParam(2, $this->password, PDO::PARAM_STR, 30);
+			$stmt->execute();
+			if ($stmt->rowCount() != 0) {
+				$row = $stmt->fetch(PDO::FETCH_ASSOC);
+				$this->instantiate($row);
+				return true;
+			}
+			return false;
+		}
+		
+		public function add() {
+			$sql = "INSERT INTO " . static::$table_name . " (" . implode(',', static::$attributes) . ") ";
+			$sql .= "VALUES ('', :username, :password, :email, :permission)";
+			$db = Database::getInstance();
+			$stmt = $db->handle->prepare($sql);
+			
+		}
+	}
+
+?>

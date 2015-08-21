@@ -1,0 +1,130 @@
+@CHARSET "ISO-8859-1";
+html, body {
+	height: 100%;
+}
+
+.wrapper {
+	width: 250px;
+	height: 100%;
+	min-height: 100%;
+	display: table;
+	margin:0px auto;
+}
+
+.image-responsive {
+	
+}
+
+.wrapper-inner {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.block-pointer{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	cursor: pointer;
+}
+
+/* FOR ADMIN SIDEBAR */
+
+.page-wrapper {
+	height: 100%;
+	margin-right: 0px;
+	margin-top: 60px;
+}
+
+.sidebar {
+	background: #f8f8f8;
+	padding-right: 0px;
+	border-right:1px solid #e7e7e7;
+	margin-top:0px;
+	overflow: auto;
+}
+
+@media (min-width: 992px) {
+	.sidebar {
+		width: 248px;
+		position: fixed;
+		height: 100%;
+		padding-bottom: 50px;
+		margin-top: 60px;
+	}
+}
+
+@media (max-width: 767px) {
+	.navbar-fixed-top {
+		position: relative;
+		top: auto;
+		margin-bottom: 0px;
+	}
+}
+
+.sidebar > ul > li > a {
+	font-weight: bold;
+}
+
+.sidebar .sub-menu {
+	list-style-type: none;
+}
+
+.sidebar .nav-pills li a{
+	border-radius: 0px;
+}
+
+.sidebar .sub-menu li 
+{
+	padding-left: 30px;
+	background-image: url(../images/arrow2.png);
+	background-repeat: no-repeat;
+	background-position: 1em 0.5em;
+}
+.sidebar .sub-menu li:hover {
+	background-color: #eee;	
+	background-image: url(../images/arrow2-hover.png);
+}
+
+.sidebar .sub-menu li.active {
+	background-color:#2c3e50;
+	background-image: url(../images/arrow2-white.png);
+}
+
+
+
+
+
+
+/* END WRAPPER*/
+
+.toggle-on, .toggle-off {
+/* 	padding: 6px 12px; */
+}
+
+.toggle-group, .toggle-on, .toggle-off, .toggle-handle, .toggle[disabled] {
+	cursor: default;
+}
+
+.panel-heading a:after {
+    font-family:'Glyphicons Halflings';
+    content:"\e114";
+    float: right;
+    color: #eee;
+}
+.panel-heading a.collapsed:after {
+    content:"\e080";
+}
+.center-td > tbody > tr > td {
+	vertical-align: middle;
+}
+.notice {
+	padding-top: 15px;
+}
+
+.fixed {
+	position: fixed;
+}
+
+.no-margin {
+	margin: 0px;
+}

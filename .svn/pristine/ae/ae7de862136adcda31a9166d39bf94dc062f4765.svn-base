@@ -1,0 +1,31 @@
+<?php
+	require_once 'database.class.php';
+	class Employee {
+		private static $table_name = 'employee';
+		private $id;
+		private $employee_no;
+		private $password;
+		private $email;
+		private $balance;
+		private $validity;
+		
+		public function __construct($postArray) {
+			$this->id = $postArray['id'];
+			$this->employee_no = $postArray['employee_no'];
+			$this->password = $postArray['password'];
+			$this->email = $postArray['email'];
+			$this->balance = $postArray['balance'];
+			$this->validity = $postArray['validity'];
+		}
+		
+		public static function findAllEmployee() {
+			$conn = Database::getInstance();
+			$objectArray = array();
+			foreach ($conn->handle->query("SELECT * FROM " . self::$table_name) as $row) {
+				$objectArray[] = new Employee($row);
+			}
+			return $objectArray;
+		}
+	}
+
+?>

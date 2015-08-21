@@ -1,0 +1,24 @@
+<?php
+	require_once 'config.php';
+	class Database {
+		public $handle;
+		protected static $instance;
+		
+		protected function __construct() {
+			try {
+				$this->handle = new PDO('mysql:host=' . $conf1['host'] . ';dbname=' . $conf1['dbname'], $conf1['user'], $conf1['pass']);
+			}
+			catch (PDOException $e) {
+				echo "Database connection error:" . $e->getMessage() . "<br />";
+			}
+		}
+		
+		public static function getInstance() {
+			if (!isset(self::$instance)) {
+				self::$instance = new Database();
+			}
+			return self::$instance;
+		}
+	}
+
+?>

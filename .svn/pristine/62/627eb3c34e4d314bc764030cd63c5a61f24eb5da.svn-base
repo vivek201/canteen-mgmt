@@ -1,0 +1,4 @@
+<?php 
+	require '../includes/functions.php';
+	$db = new User(); 
+?>

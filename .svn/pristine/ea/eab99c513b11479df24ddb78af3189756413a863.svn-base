@@ -1,0 +1,30 @@
+<?php
+
+	abstract class CRUD {
+		protected $db;
+		protected static $table_name;
+		protected static $attributes;
+		
+		public function __construct() {
+			$this->db = Database::getInstance();
+		}
+		
+		public function instantiate($array) {
+			foreach ($array as $key => $value) {
+				if (in_array($key, static::$attributes)){
+					$this->$key = $value;
+				}
+			}
+		}
+		
+// 		abstract private sanitize_data();
+		
+// 		public function add() {
+// 			$sql = 'INSERT INTO ' . static::$table_name . '(';
+// 			$sql .= implode(',', static::$attributes) . ')';
+// 			echo $sql;
+// 		}
+	}
+
+
+?>

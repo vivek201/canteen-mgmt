@@ -1,0 +1,72 @@
+<?php
+
+	abstract class CRUD {
+		protected $db;
+		protected static $table_name;
+		protected static $attributes;
+		
+		public function __construct() {
+			$this->db = Database::getInstance();
+			foreach (static::$attributes as $key) {
+				$this->$key = '';
+			}
+		}
+		
+		public function instantiate($array) {
+			foreach ($array as $key => $value) {
+				if (in_array($key, static::$attributes)){
+					$this->$key = trim($value);
+				}
+			}
+		}
+		
+		abstract protected function sanitize_data(&$stmt);
+		
+		public function insert() {
+			$sql = "INSERT INTO " . static::$table_name . " (" . implode(',', static::$attributes) . ") ";
+			$sql .= "VALUES (:" . implode(',:', static::$attributes) . ")";
+			
+			$db = Database::getInstance();
+			$stmt = $db->handle->prepare($sql);
+			$this->sanitize_data($stmt);
+			if ($stmt->execute()) {
+				// SUCCESSFULLY INSERTED
+				if (in_array('id', static::$attributes))
+					$this->id = $db->handle->lastInsertId();
+				return TRUE;
+			}
+			else {
+				return FALSE;
+			}
+		}
+		
+		public static function select($testCondition = null) {
+			$sql = "SELECT * FROM " . static::$table_name;
+			$db = Database::getInstance();
+			if (!is_null($testCondition)) {
+				$sql .= " WHERE ";
+				foreach ($testCondition as $key => $value) {
+					if (in_array($key, static::$attributes))
+						$sql .= $key . "=:" . $key . " AND ";
+				}
+				$sql = substr($sql, 0, -5);
+				$stmt = $db->handle->prepare($sql);
+				
+				foreach ($testCondition as $key => $value) {
+					unset($testCondition[$key]);
+					if (in_array($key, static::$attributes)) {
+						$testCondition[':' . $key] = $value;
+					}
+				}
+				if ($stmt->execute($testCondition))
+					return $stmt->fetchAll(PDO::FETCH_ASSOC);
+				else
+					return $sql;
+			}
+			$result_set = $db->handle->query($sql, PDO::FETCH_ASSOC);
+			return $result_set->fetchAll();
+		}
+	}
+
+
+?>

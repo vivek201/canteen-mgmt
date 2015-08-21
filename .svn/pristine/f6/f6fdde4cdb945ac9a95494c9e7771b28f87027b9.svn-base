@@ -1,0 +1,18 @@
+<div class="sidebar">
+  	<ul class="nav nav-pills nav-stacked">
+	  	<li>
+	  		<a href="account.add.php">Manage Accounts</a>
+	  		<?php if ($header == "accounts"): ?>
+	  		<ul class="nav nav-pills nav-stacked sub-menu">
+	  			
+	  			<li class="active"><a href="account.add.php">Add Accounts</a></li>
+	  			<li><a href="#">View Accounts</a></li>
+	  			<li><a href="#">abc</a></li>
+	  			<li><a href="#">abc</a></li>
+	  		</ul>
+	  		<?php endif; ?>
+	  	</li>
+	  	<li><a href="#">Menu</a></li>
+	  	<li <?php if ($header == "help") echo "class='active'"; ?>><a href="admin_help_page.php">Help</a></li>
+	</ul>
+</div>

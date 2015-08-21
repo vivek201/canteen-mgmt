@@ -1,0 +1,40 @@
+<?php include 'templates/header.php';?>
+<?php 
+
+	require_once 'includes/functions.php';
+	
+	if (isset($_POST['submit'])) {
+		$user = new User();
+		$_POST['password'] = md5($_POST['password']);
+		$user->instantiate($_POST);
+		// if the username/password combination is in the database
+		if ($user->login()) {
+			// SET SESSION VARIABLE
+			
+			// ====
+			if ($user->permission == "CUSTOMER")
+				redirect_to("public.php");
+			else 
+				redirect_to("admin.php");
+		}
+	}
+
+?>
+	<div class="wrapper">
+		<div class="wrapper-inner">
+		<a href="#"><img alt="logo" src="assets/images/customer_img.png" class="img-responsive img-circle teset"></a>
+		<br>
+		<form action="index.php" method="post">
+			<div class="form-group">
+				<input class="form-control input-lg" placeholder="Username" type="text" name="username" required maxlength="30">
+			</div>
+			<div class="form-group">
+				<input class="form-control input-lg" placeholder="Password" type="password" name="password" required maxlength="32">
+			</div>
+			<div class="form-group">
+				<input type="submit" class="btn btn-primary btn-block btn-lg" value="Sign In" name="submit">
+			</div>
+		</form>
+		</div>
+	</div>
+<?php include 'templates/footer.php';?>

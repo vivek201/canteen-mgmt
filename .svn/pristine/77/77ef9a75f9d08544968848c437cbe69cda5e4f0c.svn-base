@@ -1,0 +1,70 @@
+<?php
+
+	abstract class CRUD {
+		protected $db;
+		protected static $table_name;
+		protected static $attributes;
+		
+		public function __construct() {
+			$this->db = Database::getInstance();
+			foreach (static::$attributes as $key) {
+				if (!isset($this->$key)) $this->$key = '';
+			}
+		}
+		
+		public function instantiate($array) {
+			foreach ($array as $key => $value) {
+				if (in_array($key, static::$attributes)){
+					$this->$key = trim($value);
+				}
+			}
+		}
+		
+		public function insert() {
+			$sql = "INSERT INTO " . static::$table_name . " (" . implode(',', static::$attributes) . ") ";
+			$sql .= "VALUES (:" . implode(',:', static::$attributes) . ")";
+			
+			$db = Database::getInstance();
+			$stmt = $db->handle->prepare($sql);
+			$this->sanitize_object($stmt);
+			if ($stmt->execute()) {
+				// SUCCESSFULLY INSERTED
+				if (in_array('id', static::$attributes))
+					$this->id = $db->handle->lastInsertId();
+				return TRUE;
+			}
+			else {
+				return FALSE;
+			}
+		}
+		
+		public static function select($testCondition = null) {
+			$sql = "SELECT " . implode(',', static::$attributes);
+			$sql .= " FROM " . static::$table_name;
+			$db = Database::getInstance();
+			$objectArray = array();
+			if (!is_null($testCondition)) {
+				$sql .= " WHERE ";	
+				foreach ($testCondition as $key => $value) {
+					if (in_array($key, static::$attributes))
+						$sql .= $key . "=:" . $key . " AND ";
+				}
+				$sql = substr($sql, 0, -5);
+			}
+			$stmt = $db->handle->prepare($sql);
+			if (!is_null($testCondition)) {
+				static::sanitize_data($stmt, $testCondition);			
+			}
+			if ($stmt->execute($testCondition)) {
+				while ($obj = $stmt->fetchObject(get_called_class())) {
+					$objectArray[] = $obj;
+				}
+				return $objectArray;
+			}
+			else
+				return $sql;
+		}
+	}
+
+
+?>

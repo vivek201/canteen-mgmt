@@ -1,0 +1,12 @@
+<?php
+	function __autoload($class_name) {
+		require_once '\\app\\' . $class_name . '.class.php';
+	}
+
+
+	function redirect_to($loc = NULL) {
+		header("Location: " . $loc);
+		exit();
+	}
+
+?>
